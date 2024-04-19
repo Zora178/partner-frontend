@@ -12,6 +12,9 @@ import HelloWorld from './components/HelloWorld.vue'
     </a>
   </div>
   <HelloWorld msg="Vite + Vue" />
+  <van-button disabled type="primary">禁用状态</van-button>
+<van-button disabled type="success">禁用状态</van-button>
+
 </template>
 
 <style scoped>
