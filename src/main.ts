@@ -1,7 +1,13 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import { NavBar } from 'vant';
+import { createApp } from "vue";
+import App from "./App.vue";
+import * as VueRouter from 'vue-router'
+import routes from "./config/route";
 
-const app = createApp(App)
-// app.use(NavBar);
-app.mount('#app')
+
+const router = VueRouter.createRouter({
+  history: VueRouter.createWebHashHistory(),
+  routes,
+})
+const app = createApp(App);
+app.use(router)
+app.mount("#app");
