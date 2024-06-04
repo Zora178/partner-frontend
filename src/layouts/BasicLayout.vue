@@ -1,29 +1,35 @@
 <template>
-<van-nav-bar
-  title="标题"
-  right-text="按钮"
-  left-arrow
-  @click-left="onClickLeft"
-  @click-right="onClickRight"
-/>
-<div id="content">
-  <RouterLink to="/">Go to Home</RouterLink>
-  <RouterLink to="/team">Go to About</RouterLink>
-</div>
-<van-tabbar v-model="active" @change="onChange">
-  <van-tabbar-item icon="home-o" name="index">主页</van-tabbar-item>
-  <van-tabbar-item icon="search" name="team">队伍页</van-tabbar-item>
-  <van-tabbar-item icon="friends-o" name="user">个人</van-tabbar-item>
-</van-tabbar>
+  <van-nav-bar
+    @click-left="onClickLeft"
+    @click-right="onClickRight"
+    title="标题"
+    left-text="返回"
+    left-arrow
+  >
+    <template #right>
+      <van-icon name="search" size="18" />
+    </template>
+  </van-nav-bar>
+  <div id="content">
+    <router-view />
+  </div>
+  <van-tabbar route @change="onChange">
+    <van-tabbar-item to="/" icon="home-o" name="index">主页</van-tabbar-item>
+    <van-tabbar-item to="/team" icon="search" name="team">队伍页</van-tabbar-item>
+    <van-tabbar-item to="/user" icon="friends-o" name="user" >个人</van-tabbar-item >
+  </van-tabbar>
 </template>
 <script setup>
-import { ref } from 'vue';
-import { showToast } from 'vant';
-import Index from "../pages/Index.vue"
-import Team from "../pages/Team.vue"
- const onClickLeft = () => alert("zuo");
- const onClickRight = () => alert("you");
- const active = ref("index");
- //active关联name
- const onChange = (index) => showToast(` ${index}`);
+import { ref } from "vue";
+import { showToast } from "vant";
+import Index from "../pages/Index.vue";
+import Team from "../pages/Team.vue";
+import { useRouter } from "vue-router";
+const route = useRouter();
+const onClickLeft = () =>{  route.back( )}
+const onClickRight = () => {
+  route.push("/search");
+};
+//active关联name
+const onChange = (index) => showToast(` ${index}`);
 </script>
