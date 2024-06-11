@@ -10,24 +10,27 @@
     <van-divider content-position="left">已选标签</van-divider>
     <div v-if="activeIds.length === 0">请选择标签</div>
     <van-row gutter="20">
-        <van-col v-for="tag in activeIds" >
+      <van-col v-for="tag in activeIds">
         <van-tag closeable size="small" type="primary" @close="doClose(tag)">
-{{  tag }}
-</van-tag>
-    </van-col>
-</van-row>
+          {{ tag }}
+        </van-tag>
+      </van-col>
+    </van-row>
     <van-divider content-position="left">选择标签</van-divider>
-        <van-tree-select
-  v-model:active-id="activeIds"
-  v-model:main-active-index="activeIndex"
-  :items="tagList"
-/>
-  </form>
+    <van-tree-select
+      v-model:active-id="activeIds"
+      v-model:main-active-index="activeIndex"
+      :items="tagList"
+    />
+    <div style="padding: 20px 40px;">
+    <van-button type="primary" @click="doSearchResult" block >搜索</van-button>
+ </div> </form>
 </template>
 <script setup>
 import { ref } from "vue";
 import { Toast } from "vant";
-
+import { useRouter } from "vue-router";
+const router = useRouter();
 const searchText = ref("");
 const originTagLiat = [
       {
@@ -79,6 +82,16 @@ const doClose = (tag) => {
     activeIds.value = activeIds.value.filter(items => {
     return items !== tag
  })
+}
+
+// 执行搜索后
+const doSearchResult = () => {
+  router.push({
+    path: '/user/list',
+    query: {
+      tags:activeIds.value
+    }
+  })
 }
 </script>
 <style scoped></style>
