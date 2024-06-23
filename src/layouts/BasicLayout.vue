@@ -26,7 +26,7 @@ import Index from "../pages/Index.vue";
 import Team from "../pages/Team.vue";
 import { useRouter } from "vue-router";
 const router = useRouter();
-const onClickLeft = () =>{  route.back( )}
+const onClickLeft = () =>{  router.back( )}
 const onClickRight = () => {
   router.push("/search");
 };
