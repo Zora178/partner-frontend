@@ -12,7 +12,10 @@
   </div>
 </template>
 <script setup lang="ts">
+import { onMounted } from "vue";
 import {useRouter} from "vue-router"
+import { UserType } from "../models/user";
+import myAxios from "../plugins/myAxios";
 const user = {
     id:1,
     username:'caca',
@@ -25,6 +28,35 @@ const user = {
     createTime:new Date(),
 }
 const router = useRouter()
+// 发送请求
+onMounted(async () => {
+  const userListData: UserType[] = await myAxios
+    .get("/user/search/tags", {
+      params: {
+        tagNameList: tags,
+      },
+      paramsSerializer: (params: any) => {
+        return qs.stringify(params, { indices: false });
+      },
+    })
+    .then(function (response: any) {
+      console.log("/user/search/tags success", response);
+      return response.data?.data;
+      showSuccessToast("请求成功");
+    })
+    .catch(function (error: any) {
+      console.error(error);
+      showFailToast("请求失败");
+    });
+  if (userListData) {
+    userListData.forEach((user) => {
+      if (user.tags) {
+        user.tags = JSON.parse(user.tags);
+      }
+    });
+    userList.value = userListData;
+  }
+});
 const toEdit = (editKey: string,editName:string,currentValue: string) => {
     router.push({
         path:'/user/edit',
